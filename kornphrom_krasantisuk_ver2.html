@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Validation Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" src="http://normalize-css.googlecode.com/svn/trunk/normalize.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" >
+
+$(document).ready(function(e) {
+   $("#actionButton").click(function(){
+   		showModalBox();
+   });
+   centerBox();
+   $(window).resize(function(){
+   	centerBox();
+	controlScrollbar();
+   });
+   
+   $("#closeButton").click(function(){
+   	closeModalBox();
+   });
+   
+});
+
+function controlScrollbar(){
+	
+	var modalW = $("#modalBox").width();
+	var modalH = $("#modalBox").height();
+	
+	
+	
+}
+
+function showModalBox(){
+	centerBox();
+	$("#modalBox").show();
+}
+
+function closeModalBox(){
+	$("#ackWrap").hide().html("");
+	$("#formWrap").show();
+	$("#modalBox").hide();
+}
+
+function centerBox(){
+	var w = $("#modalBox").width();
+	var h = $("#modalBox").height();
+	var resH = h/-2;
+	var resW = w/-2;
+	var winX = $(window).width()/2;
+	var winY = $(window).height()/2;
+	
+	if(resH+winY<0){
+		resH = 0;
+	}else{
+		resH = resH+winY;
+	}
+	
+	if(resW+winX<0){
+		resW = 0;
+	}else{
+		resW = resW+winX;
+	}
+	
+	$("#modalBox").css("top",resH);
+	$("#modalBox").css("left",resW);
+}
+
+function showday(obj){
+	var mode = $(obj).val();
+	if(mode=="1"){
+		$(".weekday").show();
+		$(".weekend").hide();
+	}else if(mode=="2"){
+		$(".weekday").hide();
+		$(".weekend").show();
+	}else{
+		$(".weekday").show();
+		$(".weekend").show();
+	}
+}
+
+
+function chkform(){
+	var result = true;
+	var day="";
+	
+	$(".chkday").each(function(index, element) {
+        if($(this).prop("checked") && $(this).parent().css("display")=="block"){
+			if(day!=""){
+				day+=", ";
+			}
+			day+=$(this).val();
+		}
+    });
+	
+	if($("#txtname").val()==""){
+		result = false;
+		alert("please fill your name.");
+	}else{
+		if(!validateName($("#txtname").val())){
+			result = false;
+			alert("Your name is incorrect format.");
+		}
+	}
+	
+	if($("#txtemail").val()==""){
+		result = false;
+		alert("please fill your email.");
+	}else{
+		// for browser that does not suport html5 validation
+		if(!validateEmail($("#txtemail").val())){
+			result = false;
+			alert("Your email is incorrect format.");
+		}
+	}
+	
+	if(result){
+		
+		var texttemp = "Name : "+$("#txtname").val()+"<br/>";
+		texttemp += "Email : "+$("#txtemail").val()+"<br/>";
+		texttemp += "Days : "+day;
+		$("#formWrap").hide();
+		$("#ackWrap").html(texttemp).show();
+	}
+	
+	return false;
+}
+
+function validateName(name){
+	var re = new RegExp(/[A-Z]{1}[a-z]+\s[A-Z]{1}[a-z]+$/);
+	return re.test(name);
+	//return name.match(re);
+}
+
+function validateEmail(email) { 
+    var re = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    return re.test(email);
+	//return email.match(re);
+}
+
+</script>
+
+<style type="text/css" >
+
+.wrapper{
+	width:90%;
+	margin:0px auto;
+	max-width:600px;
+	min-width:300px;
+}
+
+#actionButton{
+	width:100%;
+	padding:30px 0;
+	background:#C00;
+	cursor:pointer;
+	text-align:center;
+    -webkit-border-radius: 12px; 
+ 	-moz-border-radius: 12px; 
+  	border-radius: 12px; 
+}
+
+#actionButton:hover{
+  -moz-box-shadow:inset 0px 0px 15px #000; 
+  -webkit-box-shadow:inset 0px 0px 15px #000; 
+  box-shadow:inset 0px 0px 15px #000; 
+}
+
+#modalBox{
+	position:absolute;
+	
+	-moz-box-shadow:0px 0px 10px 4px #000; 
+  	-webkit-box-shadow:0px 0px 10px 4px #000;
+  	box-shadow:0px 0px 30px 3px #666;
+	display:none;
+}
+
+#boxHeader{
+	width:100%;
+	background:#C00;
+	position:relative;
+	
+}
+
+#boxHeader #headTitle{
+	padding:20px;
+}
+
+.fonttimes{
+	font-family:Times New Roman, Times, serif;
+	color:#FFF;
+	font-size:24px;
+	line-height:1em;
+}
+
+.fontarial{
+	font-family:Arial, Helvetica, sans-serif;
+	color:#000000;
+	font-size:14px;
+	line-height:1.2em;
+}
+
+#closeButton{
+	background:#000000;
+	color:#FFF;
+	padding:5px;
+	-webkit-border-radius: 5px; 
+ 	-moz-border-radius: 5px; 
+  	border-radius: 5px; 
+	position:absolute;
+	right:25px;
+	top:20px;
+	font-family:Arial, Helvetica, sans-serif;
+	line-height:1em;
+	font-size:14px;
+	cursor:pointer;
+}
+
+#closeButton:hover{
+	background:#666666;
+}
+
+#formWrap{
+	padding:0 20px 20px 20px;
+	background:#EBEBEB;
+}
+
+#ackWrap{
+	padding:20px;
+	background:#EBEBEB;
+	display:none;
+}
+
+.texttitle{
+	
+	font-weight:bold;
+	padding-top:20px;
+	padding-bottom:5px;
+}
+
+#submitButton{
+	border:none;
+	background:#C00;
+	color:#FFF;
+	font-weight:bold;
+	padding:10px;
+	-webkit-border-radius: 6px; 
+ 	-moz-border-radius: 6px; 
+  	border-radius: 6px; 
+	cursor:pointer;
+}
+
+.inputform{
+	width:100%;
+	-webkit-border-radius: 3em; 
+ 	-moz-border-radius: 3em; 
+  	border-radius: 0.5em; 
+	padding:5px;
+	font-size:14px;
+	outline:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrapper" >
+	<div id="actionButton" class="fonttimes" >CLICK HERE!!</div>
+</div>
+
+<div id="modalBox" class="wrapper" >
+	<div id="boxHeader" class="fonttimes" >
+    	<div id="headTitle" >Form</div>
+        <div id="closeButton" >X</div>
+    </div>
+    <div id="formWrap" class="fontarial" >
+    	<form id="sampleform" method="post" onsubmit="return chkform();" >
+            <div class="texttitle" >Name*</div>
+            <div><input type="text" id="txtname" name="txtname" class="inputform" placeholder="Firstname Lastname" pattern="[A-Z]{1}[a-z]+\s[A-Z]{1}[a-z]+$" title="format : Firstname Lastname" aria-required="true" /></div>
+            <div class="texttitle" >Email*</div>
+            <div><input type="email" id="txtemail" name="txtemail" class="inputform" placeholder="xxx@mail.com" pattern="[a-z0-9._%+-]+\@[a-z0-9.-]+\.[a-z]{2,4}$"  aria-required="true" title="format : xxx@mail.com" /></div>
+            <div class="texttitle" >Select Day</div>
+            <div>
+            	<select id="ddlweek" onchange="showday(this);" >
+                    <option value="" selected="selected">Show All</option>
+                    <option value="1">Weekday</option>
+                    <option value="2">Weekend</option>
+                </select>
+            </div>
+            <div class="texttitle" >Customize Day</div>
+            <div>
+            	<div  class="weekday" ><input type="checkbox" id="day1" value="Monday" class="chkday" /> Monday</div>
+                <div  class="weekday" ><input type="checkbox" id="day2" value="Tuesday" class="chkday" /> Tuesday</div>
+                <div  class="weekday" ><input type="checkbox" id="day3" value="Wednesday" class="chkday" /> Wednesday</div>
+                <div  class="weekday" ><input type="checkbox" id="day4" value="Thursday" class="chkday" /> Thursday</div>
+                <div  class="weekday" ><input type="checkbox" id="day5" value="Friday" class="chkday" /> Friday</div>
+                <div  class="weekend" ><input type="checkbox" id="day6" value="Saturday" class="chkday" /> Saturday</div>
+                <div  class="weekend" ><input type="checkbox" id="day7" value="Sunday" class="chkday" /> Sunday</div>
+            </div>
+            
+            <div><input type="submit" id="submitButton" value="Send" /></div>
+        </form>
+    </div>
+    <div id="ackWrap" class="fontarial" >
+    	
+    </div>
+</div>
+
+</body>
+</html>
