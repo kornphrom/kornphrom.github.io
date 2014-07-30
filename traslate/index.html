@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Kornphrom | Test translate api</title>
+<link rel="stylesheet" src="http://normalize-css.googlecode.com/svn/trunk/normalize.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script type="text/javascript" >
+
+$(docuemnt).ready(function(){
+
+
+
+});
+
+function play(lang){
+	var audio = new Audio();
+	audio.src ='http://translate.google.com/translate_tts?ie=utf-8&tl='+lang+'&q='+$("#txtspeech").val();
+	audio.play();
+}
+
+</script>
+
+</head>
+
+<body>
+<form id="frmSpeech" >
+<div><input type="text" id="txtspeech" name="txtspeech" /></div>
+<br/>
+<div><a href="javascript:play('en');" >Play English</a></div>
+<div><a href="javascript:play('th');" >Play Thai</a></div>
+</form>
+
+</body>
+</html>
